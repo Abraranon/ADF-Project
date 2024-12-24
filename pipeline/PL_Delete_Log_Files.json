@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "PL_Delete_Logs_Activity",
+				"description": "Delete Activity ",
 				"type": "Delete",
 				"dependsOn": [],
 				"policy": {
