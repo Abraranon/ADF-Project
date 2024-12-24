@@ -1,0 +1,38 @@
+{
+	"name": "Tgt_DS_People",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AdfStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Target_File_Path": {
+				"type": "string"
+			},
+			"Target_File_Name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().Target_File_Name",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().Target_File_Path",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

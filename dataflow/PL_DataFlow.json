@@ -1,0 +1,76 @@
+{
+	"name": "PL_DataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_People",
+						"type": "DatasetReference"
+					},
+					"name": "EmpSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_AdfStorage",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "selectEmpCols"
+				},
+				{
+					"name": "join1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Index as string,",
+				"          {User Id} as string,",
+				"          {First Name} as string,",
+				"          {Last Name} as string,",
+				"          Sex as string,",
+				"          Email as string,",
+				"          Phone as string,",
+				"          {Date of birth} as string,",
+				"          {Job Title} as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false) ~> EmpSource",
+				"EmpSource select(mapColumn(",
+				"          Index,",
+				"          {User Id},",
+				"          {First Name},",
+				"          {Last Name},",
+				"          Sex,",
+				"          Email,",
+				"          Phone,",
+				"          {Date of birth},",
+				"          {Job Title}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectEmpCols",
+				"selectEmpCols, EmpSource join(selectEmpCols@Index == EmpSource@Index,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

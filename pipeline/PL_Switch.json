@@ -1,0 +1,73 @@
+{
+	"name": "PL_Switch",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.in_Var",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "1",
+							"activities": [
+								{
+									"name": "Set variable2",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "out_var",
+										"value": {
+											"value": "@pipeline().parameters.in_Var",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "out_var",
+								"value": "0"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"in_Var": {
+				"type": "string",
+				"defaultValue": "1"
+			}
+		},
+		"variables": {
+			"out_var": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-12-19T18:48:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,89 @@
+{
+	"name": "PL_Param_Variables",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach_iterator_from_PL_Parameter",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Set_Variable_property",
+						"value": "final retrieval of the variable"
+					}
+				],
+				"typeProperties": {
+					"variableName": "PL_Set_Var",
+					"value": {
+						"value": "@variables('PL_variable')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach_iterator_from_PL_Parameter",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [
+					{
+						"name": "About ForEach Iterator",
+						"value": "Read Data from PL parameter and iterat over it"
+					}
+				],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.PL_Param",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "PL_variable",
+								"value": {
+									"value": "@item()",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"PL_Param": {
+				"type": "array",
+				"defaultValue": [
+					"a",
+					"b",
+					"c"
+				]
+			}
+		},
+		"variables": {
+			"PL_variable": {
+				"type": "Array"
+			},
+			"PL_Set_Var": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-12-19T15:58:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

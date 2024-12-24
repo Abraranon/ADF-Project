@@ -1,0 +1,9 @@
+{
+	"name": "DEV-Environment-1212",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5257744a-edda-44e4-9987-0942d9cc3693",
+		"tenantId": "d97e3d55-ea25-4b1a-ba73-7e436e72cb16"
+	}
+}

@@ -1,0 +1,132 @@
+{
+	"name": "PL_Copy_People_Data",
+	"properties": {
+		"activities": [
+			{
+				"name": "Act_Copy_Data_Activity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "@{pipeline().parameters.Source_File_Path}//@{pipeline().parameters.Tgt_File_Name}"
+					},
+					{
+						"name": "Destination",
+						"value": "@{pipeline().parameters.Tgt_File_path}//@{pipeline().parameters.Tgt_File_Name}"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "LS_AdfStorage",
+							"type": "LinkedServiceReference"
+						},
+						"path": "log"
+					},
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "LS_AdfStorage",
+								"type": "LinkedServiceReference"
+							},
+							"path": "log"
+						}
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_People",
+						"type": "DatasetReference",
+						"parameters": {
+							"source_path": {
+								"value": "@pipeline().parameters.Source_File_Path",
+								"type": "Expression"
+							},
+							"File_Name": {
+								"value": "@pipeline().parameters.Tgt_File_Name",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Tgt_DS_People",
+						"type": "DatasetReference",
+						"parameters": {
+							"Target_File_Path": {
+								"value": "@pipeline().parameters.Tgt_File_path",
+								"type": "Expression"
+							},
+							"Target_File_Name": {
+								"value": "@pipeline().parameters.Tgt_File_Name",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Source_File_Path": {
+				"type": "string"
+			},
+			"Source_File_Name": {
+				"type": "string"
+			},
+			"Tgt_File_path": {
+				"type": "string"
+			},
+			"Tgt_File_Name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-12-18T11:40:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,34 @@
+{
+	"name": "PL_Web_Activity",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web_call_dummy_rest_api",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "URL Details ",
+						"value": "Employee Data extracted from the "
+					}
+				],
+				"typeProperties": {
+					"method": "GET",
+					"disableCertValidation": false,
+					"turnOffAsync": false,
+					"url": "https://dummy.restapiexample.com/api/v1/employees"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-12-19T17:55:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

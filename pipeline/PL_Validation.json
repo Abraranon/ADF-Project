@@ -1,0 +1,57 @@
+{
+	"name": "PL_Validation",
+	"properties": {
+		"activities": [
+			{
+				"name": "Validation1",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_People",
+						"type": "DatasetReference",
+						"parameters": {
+							"source_path": "sources",
+							"File_Name": "people-100.csv"
+						}
+					},
+					"timeout": "0.12:00:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Validation1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Copy_People_Data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Source_File_Path": "sources",
+						"Source_File_Name": "people-100.csv",
+						"Tgt_File_path": "targets",
+						"Tgt_File_Name": "people-100.csv"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-12-19T18:48:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

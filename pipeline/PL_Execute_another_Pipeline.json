@@ -1,0 +1,43 @@
+{
+	"name": "PL_Execute_another_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute_PL_Param_vars",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_Param_Variables",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"PL_Param": {
+							"value": "@pipeline().parameters.PL_input",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"PL_input": {
+				"type": "array",
+				"defaultValue": [
+					"a",
+					"b",
+					"c",
+					"d"
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-12-19T16:16:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
