@@ -1,0 +1,10 @@
+{
+	"name": "ls_kv_adfstorage1212",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://KV-RG-DEV-ENV.vault.azure.net/"
+		}
+	}
+}
