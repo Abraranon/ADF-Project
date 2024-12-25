@@ -8,6 +8,12 @@
 		"LS_AdfStorage_connectionString": {
 			"value": ""
 		},
+		"LS_KV_Adfstorage_connection_properties_typeProperties_connectionString_secretName": {
+			"value": "sec-rg-dev-blobstorage-connection"
+		},
+		"ls_kv_adfstorage1212_properties_typeProperties_baseUrl": {
+			"value": "https://KV-RG-DEV-ENV.vault.azure.net/"
+		},
 		"containerUri": {
 			"value": ""
 		},

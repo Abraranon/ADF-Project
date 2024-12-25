@@ -10,6 +10,14 @@
 		"LS_AdfStorage_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_AdfStorage'"
+		},
+		"LS_KV_Adfstorage_connection_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "sec-rg-dev-blobstorage-connection"
+		},
+		"ls_kv_adfstorage1212_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://KV-RG-DEV-ENV.vault.azure.net/"
 		}
 	},
 	"variables": {
@@ -1081,6 +1089,42 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('LS_AdfStorage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_KV_Adfstorage_connection')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Blob storage connection using the key vault",
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_kv_adfstorage1212",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('LS_KV_Adfstorage_connection_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_kv_adfstorage1212')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_kv_adfstorage1212')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('ls_kv_adfstorage1212_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
